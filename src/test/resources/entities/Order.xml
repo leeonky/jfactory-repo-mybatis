@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.leeonky.jfactory.repo.mapper.OrderMapper">
+    <resultMap id="orderResult" type="Order">
+        <id property="id" column="id"/>
+        <result property="code" column="code"/>
+    </resultMap>
+    <select id="findAll" resultType="Order" resultMap="orderResult">
+        SELECT id, code from orders
+    </select>
+    <insert id="save" parameterType="Order">
+        INSERT into orders(id, code) VALUES(#{id}, #{code})
+    </insert>
+</mapper>
