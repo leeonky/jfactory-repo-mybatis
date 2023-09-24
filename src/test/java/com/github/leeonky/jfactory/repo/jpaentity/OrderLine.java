@@ -15,4 +15,5 @@ public class OrderLine {
     @Id
     private long id;
     private long orderId, productId;
+    private int quantity;
 }

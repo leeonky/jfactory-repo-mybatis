@@ -20,6 +20,17 @@ Feature: save
       | 100 | S001 |
     """
 
-  Scenario: one to many save 'one'
+  Scenario: many to one save 'one' and 'many'
+#    When Exists data "商品":
+#      | id  | name | price |
+#      | 100 | mbp  | 100   |
+    When Exists data "OrderLine":
+      | quantity | product.name | order.code |
+      | 10       | mbp          | S001       |
+    Then All data "Order" should be:
+    """
+    : | quantity | product.name |
+      | 11       | mbp          |
+    """
 
-  Scenario: one to many save 'many'
+  Scenario: one to many save 'one' and 'many'

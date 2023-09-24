@@ -6,9 +6,15 @@
     <resultMap id="orderResult" type="Order">
         <id property="id" column="id"/>
         <result property="code" column="code"/>
+        <collection property="lines" ofType="OrderLine" column="id"
+                    resultMap="com.github.leeonky.jfactory.repo.mapper.OrderLineMapper.orderLineResult"
+                    columnPrefix="order_line_"/>
     </resultMap>
     <select id="findAll" resultType="Order" resultMap="orderResult">
-        SELECT id, code from orders
+        SELECT orders.*,
+        order_lines.id as order_line_id,
+        order_lines.quantity as order_line_quantity,
+        from orders left join order_lines on orders.id=order_lines.orderId
     </select>
     <insert id="save" parameterType="Order">
         INSERT into orders(id, code) VALUES(#{id}, #{code})

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.leeonky.jfactory.repo.mapper.OrderLineMapper">
+    <resultMap id="orderLineResult" type="OrderLine">
+        <id property="id" column="id"/>
+        <result property="quantity" column="quantity"/>
+        <association property="product"
+                     resultMap="com.github.leeonky.jfactory.repo.mapper.ProductMapper.productResult"
+                     columnPrefix="product_"/>
+        <association property="order"
+                     resultMap="com.github.leeonky.jfactory.repo.mapper.OrderMapper.orderResult"
+                     columnPrefix="order_"/>
+    </resultMap>
+    <select id="findAll" resultType="OrderLine" resultMap="orderLineResult">
+        SELECT order_lines.*,
+        products.id as product_id,
+        products.name as product_name,
+        products.price as product_price,
+        orders.id as order_id,
+        orders.code as order_code
+        from order_lines inner join products on
+        order_lines.productId=products.id
+        inner join orders on order_lines.orderId=orders.id
+    </select>
+    <insert id="save" parameterType="OrderLine">
+        INSERT into order_lines(id, orderId, productId, quantity) VALUES(#{id}, #{order.id}, #{product.id}, #{quantity})
+    </insert>
+</mapper>

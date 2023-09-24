@@ -2,7 +2,9 @@ package com.github.leeonky.jfactory.repo;
 
 import com.github.leeonky.jfactory.DataRepository;
 import com.github.leeonky.jfactory.repo.entity.Order;
+import com.github.leeonky.jfactory.repo.entity.OrderLine;
 import com.github.leeonky.jfactory.repo.entity.Product;
+import com.github.leeonky.jfactory.repo.mapper.OrderLineMapper;
 import com.github.leeonky.jfactory.repo.mapper.OrderMapper;
 import com.github.leeonky.jfactory.repo.mapper.ProductMapper;
 import org.apache.ibatis.io.Resources;
@@ -12,7 +14,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -24,7 +25,9 @@ class MybatisDataRepository implements DataRepository {
             return (Collection<T>) query(ProductMapper.class, ProductMapper::findAll);
         else if (type.equals(Order.class))
             return (Collection<T>) query(OrderMapper.class, OrderMapper::findAll);
-        return Collections.emptyList();
+        else if (type.equals(OrderLine.class))
+            return (Collection<T>) query(OrderLineMapper.class, OrderLineMapper::findAll);
+        throw new RuntimeException(String.format("Unsupported type %s in queryAll", type));
     }
 
     @Override
@@ -37,6 +40,10 @@ class MybatisDataRepository implements DataRepository {
             execute(ProductMapper.class, productMapper -> productMapper.save((Product) object));
         } else if (object instanceof Order)
             execute(OrderMapper.class, productMapper -> productMapper.save((Order) object));
+        else if (object instanceof OrderLine)
+            execute(OrderLineMapper.class, productMapper -> productMapper.save((OrderLine) object));
+        else
+            throw new RuntimeException(String.format("Unsupported type %s in save", object));
     }
 
     public <T, M> T query(Class<M> mapperType, Function<M, T> function) {

@@ -6,6 +6,7 @@
     <typeAliases>
         <typeAlias type="com.github.leeonky.jfactory.repo.entity.Product" alias="Product"/>
         <typeAlias type="com.github.leeonky.jfactory.repo.entity.Order" alias="Order"/>
+        <typeAlias type="com.github.leeonky.jfactory.repo.entity.OrderLine" alias="OrderLine"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -22,5 +23,6 @@
     <mappers>
         <mapper resource="entities/Product.xml"/>
         <mapper resource="entities/Order.xml"/>
+        <mapper resource="entities/OrderLine.xml"/>
     </mappers>
 </configuration>

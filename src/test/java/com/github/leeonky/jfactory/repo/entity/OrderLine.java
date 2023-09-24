@@ -7,5 +7,7 @@ import lombok.Setter;
 @Setter
 public class OrderLine {
     private long id;
-    private long orderId, productId;
+    private Order order;
+    private Product product;
+    private int quantity;
 }

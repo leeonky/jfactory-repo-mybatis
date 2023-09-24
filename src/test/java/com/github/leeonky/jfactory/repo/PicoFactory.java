@@ -1,7 +1,9 @@
 package com.github.leeonky.jfactory.repo;
 
 import com.github.leeonky.jfactory.JFactory;
+import com.github.leeonky.jfactory.Spec;
 import com.github.leeonky.jfactory.cucumber.JData;
+import com.github.leeonky.util.Classes;
 import io.cucumber.core.backend.ObjectFactory;
 
 import javax.persistence.EntityManager;
@@ -37,8 +39,7 @@ public class PicoFactory implements ObjectFactory {
 
     private JData jData() {
         JFactory jFactory = new JFactory(new MybatisDataRepository());
-        jFactory.register(Specs.Product.class);
-        jFactory.register(Specs.Order.class);
+        Classes.assignableTypesOf(Spec.class, "com.github.leeonky.jfactory.repo").forEach(jFactory::register);
         return new JData(jFactory);
     }
 }
